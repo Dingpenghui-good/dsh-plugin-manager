@@ -1,4 +1,4 @@
-# dsh-plugin-plugin-manager
+﻿# dsh-plugin-manager
 
 Writable plugin management tab for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
 Shows only user-installed Cordis plugins (filters out `@deepseek-ai/` and `cordis:` built-ins),
@@ -23,14 +23,10 @@ src/
 │   ├── types.ts          # PluginManagerSnapshot type
 │   └── invariant.ts
 └── client/
-    ├── client/
-    │   ├── index.ts               # Settings slot registration
-    │   ├── locales.ts             # zh/en i18n
-    │   ├── PluginManagerSettingsTab.tsx   # Expandable card UI
-    │   └── PluginManagerSettingsTab.module.css
-    ├── css-modules.d.ts
-    ├── index.ts
-    └── invariant.ts
+    ├── index.ts               # Settings slot registration
+    ├── locales.ts             # zh/en i18n
+    ├── PluginManagerSettingsTab.tsx   # Expandable card UI
+    └── PluginManagerSettingsTab.module.css
 ```
 
 ## Installation in DeepSeek Harness
@@ -41,7 +37,7 @@ Add to your agent preset's `cordis.yml`:
 plugins:
   host:
     - id: plugin-manager
-      name: '@dsh-plugin/plugin-manager'
+      name: '@dsh-plugin/plugin-manager/host'
   client:
     - id: ui-settings-plugin-manager
       name: '@dsh-plugin/plugin-manager/client'
@@ -52,7 +48,7 @@ Or add to `packages/bundle/web-app/cordis.patch.yml`:
 ```yaml
 host:
   - id: plugin-manager
-    name: '@dsh-plugin/plugin-manager'
+    name: '@dsh-plugin/plugin-manager/host'
 client:
   - id: ui-settings-plugin-manager
     name: '@dsh-plugin/plugin-manager/client'
