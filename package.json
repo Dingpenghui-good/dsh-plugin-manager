@@ -1,0 +1,38 @@
+﻿{
+    "name":  "@dsh-plugin/plugin-manager",
+    "description":  "Writable plugin management tab for DeepSeek Harness — toggle, enable/disable, and uninstall user-installed Cordis plugins from Settings",
+    "version":  "0.1.0",
+    "type":  "module",
+    "exports":  {
+                    "./host":  {
+                                   "types":  "./lib/host/index.d.ts",
+                                   "default":  "./lib/host/index.js"
+                               },
+                    "./client":  {
+                                     "types":  "./lib/client/index.d.ts",
+                                     "default":  "./lib/client/index.js"
+                                 },
+                    "./package.json":  "./package.json"
+                },
+    "files":  [
+                  "lib",
+                  "src"
+              ],
+    "scripts":  {
+                    "build:host":  "tsc -p tsconfig.host.json \u0026\u0026 tsdown --env.DSH_BUILD_FACE host",
+                    "build:client":  "tsc -p tsconfig.client.json \u0026\u0026 tsdown --env.DSH_BUILD_FACE client"
+                },
+    "peerDependencies":  {
+                             "@deepseek-ai/cordis":  "^1.0.0",
+                             "@deepseek-ai/dsh-typert-protocol":  "^0.1.0",
+                             "@deepseek-ai/dsh-host-plugin-inventory":  "^0.1.0",
+                             "@deepseek-ai/dsh-api-remotes":  "^0.1.0",
+                             "@deepseek-ai/dsh-client-runtime":  "^0.1.0",
+                             "@deepseek-ai/dsh-client-ui-settings":  "^0.1.0",
+                             "@deepseek-ai/dsh-client-ui-slots":  "^0.1.0",
+                             "@deepseek-ai/dsh-client-ui-primitives":  "^0.1.0",
+                             "@deepseek-ai/dsh-client-locale":  "^0.1.0",
+                             "react":  "^18.2.0"
+                         },
+    "license":  "MIT"
+}

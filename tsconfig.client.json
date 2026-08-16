@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "outDir": "lib/client",
+    "rootDir": "src/client"
+  },
+  "include": ["src/client/**/*"]
+}

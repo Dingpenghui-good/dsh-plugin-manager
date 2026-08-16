@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "noEmit": false,
+    "outDir": "lib/host",
+    "rootDir": "src/host"
+  },
+  "include": ["src/host/**/*"]
+}
