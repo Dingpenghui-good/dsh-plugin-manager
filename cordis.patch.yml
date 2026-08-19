@@ -1,4 +1,8 @@
-﻿- insert:
+# Plugin manager patch — kept for backwards compatibility.
+# The canonical registration is in cordis.yml (single host entry).
+# This patch file is no longer used by the bundle system but retained
+# for reference and for any manual --patch overlays.
+- insert:
   - id: plugin-manager
     name: '@dsh-plugin/plugin-manager/host'
     after:

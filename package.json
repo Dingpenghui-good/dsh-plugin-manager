@@ -3,17 +3,10 @@
   "description": "Writable plugin management tab for DeepSeek Harness — toggle, enable/disable, and uninstall user-installed Cordis plugins from Settings",
   "version": "0.2.0",
   "type": "module",
-  "main": "./lib/host/index.js",
+  "main": "./lib/index.js",
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
-    },
-    "host": {
-      "entry": "./lib/host/index.js",
-      "inject": [
-        "pluginInventory",
-        "loader"
-      ]
     },
     "client": {
       "inject": [
@@ -28,25 +21,23 @@
     "src",
     "package.json",
     "README.md",
+    "cordis.yml",
     "cordis.patch.yml"
   ],
   "exports": {
-    "./host": {
-      "types": "./lib/host/index.d.ts",
-      "default": "./lib/host/index.js"
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
     },
     "./client": {
-      "types": "./lib/client/index.d.ts",
-      "default": "./lib/client/index.js"
+      "types": "./lib/client/client.d.ts",
+      "default": "./lib/client.js"
     },
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "npm run build:host && npm run build:client",
-    "build:host": "tsc -p tsconfig.host.json",
-    "build:client": "tsdown",
-    "dev:host": "tsc -p tsconfig.host.json --watch",
-    "dev:client": "tsdown --watch"
+    "build": "tsdown",
+    "dev": "tsdown --watch"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",

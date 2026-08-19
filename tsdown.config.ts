@@ -4,7 +4,7 @@ import { basename, dirname, resolve as resolvePath, sep } from 'node:path'
 import { defineConfig } from 'tsdown'
 import { transform } from 'lightningcss'
 
-const PLUGIN_ID = '@deepseek-ai/dsh-client-ui-settings-plugin-manager'
+const PLUGIN_ID = 'plugin-manager'
 
 const CSS_VIRTUAL_PREFIX = '\0dsh-css:'
 const CSS_VIRTUAL_SUFFIX = '.mjs'
@@ -43,14 +43,39 @@ function sourceAssetPath(source: string, importer: string): string {
 
 export default defineConfig([
   {
-    name: 'plugin-manager-client',
-    entry: ['src/client/index.ts'],
-    outDir: 'lib/client',
-    format: ['cjs'],
-    platform: 'browser',
+    name: PLUGIN_ID,
+    entry: ['src/index.ts'],
+    outDir: 'lib',
+    format: ['esm'],
+    platform: 'node',
+    target: 'es2024',
+    fixedExtension: false,
     dts: true,
     sourcemap: true,
     clean: true,
+    external: [
+      '@deepseek-ai/cordis',
+      '@deepseek-ai/dsh-host-plugin-inventory',
+      '@deepseek-ai/dsh-typert-protocol',
+      'zod',
+    ],
+    noExternal: (id: string) => {
+      if (id.startsWith('.')) return true
+      return undefined
+    },
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV ?? 'production'),
+    },
+  },
+  {
+    name: `${PLUGIN_ID}/client`,
+    entry: { client: 'src/client/index.ts' },
+    outDir: 'lib',
+    format: ['cjs'],
+    platform: 'browser',
+    dts: false,
+    sourcemap: true,
+    clean: false,
     external: [...CLIENT_EXTERNALS],
     noExternal: (id: string) => {
       if ((CLIENT_EXTERNALS as readonly string[]).includes(id)) return undefined
