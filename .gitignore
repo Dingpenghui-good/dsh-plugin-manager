@@ -9,6 +9,11 @@ lib/
 dist/
 build/
 *.tsbuildinfo
+*.ts.map
+*.d.ts
+*.d.ts.map
+*.js
+*.js.map
 
 # IDE
 .vscode/

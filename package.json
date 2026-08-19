@@ -10,10 +10,16 @@
     },
     "host": {
       "entry": "./lib/host/index.js",
-      "inject": ["pluginInventory", "loader"]
+      "inject": [
+        "pluginInventory",
+        "loader"
+      ]
     },
     "client": {
-      "inject": ["@deepseek-ai/dsh-client-ui-settings", "@deepseek-ai/dsh-client-ui-slots"],
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
       "platform": "web"
     }
   },
@@ -59,7 +65,7 @@
     "@types/node": "^26.2.0",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
-    "lightningcss": "^1.29.2",
+    "lightningcss": "^1.33.0",
     "tsdown": "^0.22.14",
     "typescript": "^7.0.2"
   }

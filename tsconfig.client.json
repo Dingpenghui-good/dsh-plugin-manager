@@ -7,10 +7,9 @@
     "declarationMap": true,
     "sourceMap": true,
     "strict": true,
-    "noEmit": false,
+    "noEmit": true,
     "jsx": "react-jsx",
-    "outDir": "lib/client",
-    "rootDir": "src/client"
+    "types": ["node", "react", "react-dom"]
   },
   "include": ["src/client/**/*"]
 }
