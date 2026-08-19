@@ -1,0 +1,26 @@
+# Development
+src/
+*.tsconfig*.json
+*.config.ts
+.env
+.env.local
+
+# Documentation
+README.md
+CHANGELOG.md
+LICENSE
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+Jenkinsfile
+
+# Testing
+*.test.ts
+*.spec.ts
+__tests__/
+coverage/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db

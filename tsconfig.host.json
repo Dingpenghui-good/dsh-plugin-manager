@@ -8,6 +8,7 @@
     "sourceMap": true,
     "strict": true,
     "noEmit": false,
+    "types": ["node"],
     "outDir": "lib/host",
     "rootDir": "src/host"
   },

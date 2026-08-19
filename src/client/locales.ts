@@ -2,7 +2,7 @@
 
 /** Simplified Chinese dictionary and key source of truth. */
 export const zh = {
-  tab: '自安装插件管理',
+  tab: '已安装插件',
   loading: '正在读取插件…',
   error: '暂时无法读取插件。',
   retry: '重试',
@@ -39,7 +39,7 @@ export type PluginManagerLocaleKey = keyof typeof zh
 
 /** English dictionary checked against the Chinese key set. */
 export const en = {
-  tab: 'Self-installed plugins',
+  tab: 'Installed plugins',
   loading: 'Reading plugins…',
   error: 'Plugins are temporarily unavailable.',
   retry: 'Retry',

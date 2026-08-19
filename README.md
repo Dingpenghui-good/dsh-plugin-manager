@@ -1,78 +1,140 @@
-﻿# dsh-plugin-manager
+# @dsh-plugin/plugin-manager
 
-Writable plugin management tab for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
-Shows only user-installed Cordis plugins (filters out `@deepseek-ai/` and `cordis:` built-ins),
-with toggle (enable/disable) and uninstall actions.
+DeepSeek Harness 插件管理器 — 在设置界面中管理用户安装的 Cordis 插件。
 
-## Features
+## 功能
 
-- **Filter built-ins**: Shows only non-builtin plugins (22 user plugins visible, 187 total inventory filtered down)
-- **Toggle**: Enable/disable any plugin entry via `loader.update({ disabled })`
-- **Uninstall**: Remove plugin entries via `loader.remove(entryId)`
-- **Expandable cards**: Click to expand showing entryId, Cordis fiber phase, and action buttons
-- **Search**: Filter by module name or entry ID
-- **Styling**: Matches the existing plugin-inventory tab CSS (2-column grid, status dots, chevron animations)
-- **Tab label**: "自安装插件管理" (Self-installed Plugin Manager)
+- **已安装插件列表** — 显示所有用户安装的插件（自动过滤内置插件）
+- **启用/禁用** — 一键切换插件状态
+- **卸载** — 移除已安装的插件（需要确认）
+- **搜索过滤** — 快速定位插件
+- **双语支持** — 中文 / English
+- **状态指示** — 显示 Cordis fiber 阶段（挂载中/已挂载/失败等）
 
-## Files
+## 安装方式
 
-```
-src/
-├── host/
-│   ├── index.ts          # PluginManagerGateway: list/toggle/uninstall RPC
-│   ├── types.ts          # PluginManagerSnapshot type
-│   └── invariant.ts
-└── client/
-    ├── index.ts               # Settings slot registration
-    ├── locales.ts             # zh/en i18n
-    ├── PluginManagerSettingsTab.tsx   # Expandable card UI
-    └── PluginManagerSettingsTab.module.css
+### 方式一：使用 dsh 命令（推荐）
+
+```bash
+# 安装插件
+dsh plugin --profile web add <path-to-plugin>
+
+# 例如：
+cd E:\dsh-workspace\dsh-plugin-manager
+dsh plugin --profile web add .
 ```
 
-## Installation in DeepSeek Harness
+### 方式二：手动添加到 cordis.patch.yml
 
-Add to your agent preset's `cordis.yml`:
-
-```yaml
-plugins:
-  host:
-    - id: plugin-manager
-      name: '@dsh-plugin/plugin-manager/host'
-  client:
-    - id: ui-settings-plugin-manager
-      name: '@dsh-plugin/plugin-manager/client'
-```
-
-Or add to `packages/bundle/web-app/cordis.patch.yml`:
+在 DeepSeek Harness 项目的 `cordis.patch.yml` 中添加：
 
 ```yaml
 host:
   - id: plugin-manager
     name: '@dsh-plugin/plugin-manager/host'
+
 client:
   - id: ui-settings-plugin-manager
     name: '@dsh-plugin/plugin-manager/client'
 ```
 
-Then rebuild:
+然后重新构建并重启 DSH。
+
+### 方式三：从 GitHub 安装
+
 ```bash
-npx tsc --build packages/host/plugin-manager
-npx tsdown --env.DSH_BUILD_FACE host --filter "@dsh-plugin/plugin-manager"
-npx tsdown --env.DSH_BUILD_FACE client --filter "@dsh-plugin/plugin-manager"
+# 克隆到 plugins 目录
+git clone https://github.com/<your-username>/dsh-plugin-manager.git ~/.dsh/plugins/dsh-plugin-manager
+# Windows: git clone https://github.com/<your-username>/dsh-plugin-manager.git %USERPROFILE%\.dsh\plugins\dsh-plugin-manager
+
+# 进入插件目录
+cd ~/.dsh/plugins/dsh-plugin-manager
+
+# 安装依赖并构建
+npm install
+npm run build
+
+# 添加到 DSH
+dsh plugin --profile web add .
 ```
 
-Restart the DSH server and open Settings → 插件 → 自安装插件管理.
+## 使用方法
 
-## Host API
+1. 重启 DeepSeek Harness
+2. 打开 **设置 → 插件 → 已安装插件**
+3. 点击插件卡片展开详情
+4. 使用「启用/禁用」按钮切换状态
+5. 使用「卸载」按钮移除插件（需要确认）
 
-### `pluginManager.list()`
-Returns `{ entries: PluginInventoryEntry[] }` — user-installed plugins only.
+## 技术说明
 
-### `pluginManager.toggle(entryId: string, enabled: boolean)`
-Toggles the `disabled` flag on a Loader entry.
+| 项目 | 值 |
+|------|-----|
+| Host ID | `plugin-manager` |
+| Client ID | `ui-settings-plugin-manager` |
+| Package | `@dsh-plugin/plugin-manager` |
+| Settings Slot | `settings.plugins.tab` |
+| Tab 位置 | order: 20 |
+| 过滤规则 | 排除 `@deepseek-ai/` 和 `cordis:` 前缀 |
 
-### `pluginManager.uninstall(entryId: string)`
-Removes a Loader entry from the tree.
+## 插件结构
+
+```
+dsh-plugin-manager/
+├── src/
+│   ├── host/
+│   │   ├── index.ts          # PluginManagerGateway: list/toggle/uninstall RPC
+│   │   ├── types.ts          # PluginManagerSnapshot type
+│   │   └── invariant.ts      # 不变量注册
+│   └── client/
+│       ├── index.ts               # Settings slot 注册
+│       ├── locales.ts             # zh/en 国际化字典
+│       ├── PluginManagerSettingsTab.tsx   # 展开式卡片 UI
+│       ├── PluginManagerSettingsTab.module.css  # 样式
+│       ├── invariant.ts           # 不变量注册
+│       └── css-modules.d.ts       # CSS 模块类型
+├── lib/                    # 构建产物（npm run build 生成）
+├── cordis.patch.yml        # Cordis 配置
+├── package.json
+└── README.md
+```
+
+## 开发
+
+```bash
+# 安装依赖
+npm install
+
+# 构建（生产）
+npm run build
+
+# 开发模式（监听文件变化）
+npm run dev:host   # Host 监听
+npm run dev:client # Client 监听
+
+# 单独构建
+npm run build:host
+npm run build:client
+```
+
+> ⚠️ **必须执行 `npm run build`**，插件运行时依赖 `lib/` 下的构建产物，不能直接使用源码。
+
+## API
+
+### Host Remote 服务
+
+```typescript
+interface PluginManagerGateway {
+  /** 列出用户安装的插件（过滤内置插件） */
+  list(): Promise<{ entries: PluginInventoryEntry[] }>
+  
+  /** 切换插件启用状态 */
+  toggle(entryId: string, enabled: boolean): Promise<void>
+  
+  /** 卸载插件 */
+  uninstall(entryId: string): Promise<void>
+}
+```
 
 ## License
 
