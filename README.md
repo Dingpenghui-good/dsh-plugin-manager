@@ -29,13 +29,11 @@ dsh plugin --profile web add .
 在 DeepSeek Harness 项目的 `cordis.patch.yml` 中添加：
 
 ```yaml
-host:
-  - id: plugin-manager
-    name: '@dsh-plugin/plugin-manager/host'
-
-client:
-  - id: ui-settings-plugin-manager
-    name: '@dsh-plugin/plugin-manager/client'
+- insert:
+    - id: plugin-manager
+      name: '@dsh-plugin/plugin-manager'
+      after:
+      - plugin-inventory
 ```
 
 然后重新构建并重启 DSH。
@@ -71,7 +69,6 @@ dsh plugin --profile web add .
 | 项目 | 值 |
 |------|-----|
 | Host ID | `plugin-manager` |
-| Client ID | `ui-settings-plugin-manager` |
 | Package | `@dsh-plugin/plugin-manager` |
 | Settings Slot | `settings.plugins.tab` |
 | Tab 位置 | order: 20 |
@@ -82,17 +79,15 @@ dsh plugin --profile web add .
 ```
 dsh-plugin-manager/
 ├── src/
-│   ├── host/
-│   │   ├── index.ts          # PluginManagerGateway: list/toggle/uninstall RPC
-│   │   ├── types.ts          # PluginManagerSnapshot type
-│   │   └── invariant.ts      # 不变量注册
+│   ├── index.ts                  # Host 入口: PluginManagerGateway + Cordis apply
+│   ├── types.ts                  # PluginManagerSnapshot 类型
+│   ├── typert.remote-client.d.ts # Typert Remote 类型声明
 │   └── client/
-│       ├── index.ts               # Settings slot 注册
-│       ├── locales.ts             # zh/en 国际化字典
-│       ├── PluginManagerSettingsTab.tsx   # 展开式卡片 UI
-│       ├── PluginManagerSettingsTab.module.css  # 样式
-│       ├── invariant.ts           # 不变量注册
-│       └── css-modules.d.ts       # CSS 模块类型
+│       ├── index.ts                          # Settings slot 注册
+│       ├── locales.ts                        # zh/en 国际化字典
+│       ├── PluginManagerSettingsTab.tsx      # 展开式卡片 UI
+│       ├── PluginManagerSettingsTab.module.css # 样式
+│       └── css-modules.d.ts                  # CSS 模块类型
 ├── lib/                    # 构建产物（npm run build 生成）
 ├── cordis.patch.yml        # Cordis 配置
 ├── package.json
@@ -109,12 +104,7 @@ npm install
 npm run build
 
 # 开发模式（监听文件变化）
-npm run dev:host   # Host 监听
-npm run dev:client # Client 监听
-
-# 单独构建
-npm run build:host
-npm run build:client
+npm run dev
 ```
 
 > ⚠️ **必须执行 `npm run build`**，插件运行时依赖 `lib/` 下的构建产物，不能直接使用源码。

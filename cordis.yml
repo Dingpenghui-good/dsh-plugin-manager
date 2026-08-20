@@ -1,5 +1,1 @@
-# Plugin manager — Cordis registration
-# Uses the same pattern as dsh-conversation-language:
-# a single host entry point; the client is loaded by the web runtime automatically.
-- id: plugin-manager
-  name: './lib/index.js'
+[]
