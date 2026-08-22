@@ -163,10 +163,6 @@ const INVOCATIONS = [
 ]
 
 export function apply(ctx: Context): void {
-  console.log('[plugin-manager] apply() called')
-  console.log('[plugin-manager] ctx.reflect.props:', Object.keys(ctx.reflect.props))
-  console.log('[plugin-manager] ctx.typert:', !!ctx.get('typert'))
-
   // Instantiate the gateway service so it registers itself as 'pluginManager'
   const service = new PluginManagerGateway(ctx)
 
@@ -179,6 +175,4 @@ export function apply(ctx: Context): void {
     schemas: [],
     invocations: INVOCATIONS,
   })
-
-  console.log('[plugin-manager] after instantiation, ctx.reflect.props:', Object.keys(ctx.reflect.props))
 }
