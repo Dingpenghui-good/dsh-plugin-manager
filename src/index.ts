@@ -168,7 +168,7 @@ const INVOCATIONS = [
 ]
 
 /** Stable contribution identity of this plugin (also its Cordis service owner key). */
-const PACKAGE_NAME = '@dsh-plugin/plugin-manager'
+const PACKAGE_NAME = '@dphdph/plugin-manager'
 
 /**
  * Empty package reflection.

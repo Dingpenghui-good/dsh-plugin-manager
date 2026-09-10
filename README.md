@@ -1,4 +1,4 @@
-# @dsh-plugin/plugin-manager
+# @dphdph/plugin-manager
 
 DeepSeek Harness 插件管理器 — 在设置界面中管理用户安装的 Cordis 插件。
 
@@ -40,7 +40,7 @@ dsh plugin --profile web add .
 ```yaml
 - insert:
     - id: plugin-manager
-      name: '@dsh-plugin/plugin-manager'
+      name: '@dphdph/plugin-manager'
       after:
       - plugin-inventory
 ```
@@ -78,7 +78,7 @@ dsh plugin --profile web add .
 | 项目 | 值 |
 |------|-----|
 | Host ID | `plugin-manager` |
-| Package | `@dsh-plugin/plugin-manager` |
+| Package | `@dphdph/plugin-manager` |
 | Settings Slot | `settings.plugins.tab` |
 | Tab 位置 | order: 20 |
 | 过滤规则 | 排除 `@deepseek-ai/` 和 `cordis:` 前缀 |

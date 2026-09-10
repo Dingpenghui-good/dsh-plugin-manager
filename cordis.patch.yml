@@ -1,6 +1,6 @@
 # Plugin manager patch
 - insert:
   - id: plugin-manager
-    name: '@dsh-plugin/plugin-manager'
+    name: '@dphdph/plugin-manager'
     after:
     - plugin-inventory

@@ -1,5 +1,5 @@
 /**
- * Runtime verification for @dsh-plugin/plugin-manager against DSH 0.1.5-rc.1.
+ * Runtime verification for @dphdph/plugin-manager against DSH 0.1.5-rc.1.
  *
  * Mounts the BUILT host bundle (lib/index.js) on a real Cordis root with the
  * real @deepseek-ai/dsh-typert-registry and the real PluginInventoryGateway,
@@ -19,7 +19,7 @@ import { createRequire } from 'node:module'
 import vm from 'node:vm'
 import * as plugin from './lib/index.js'
 
-const PACKAGE_NAME = '@dsh-plugin/plugin-manager'
+const PACKAGE_NAME = '@dphdph/plugin-manager'
 const FIBER_ACTIVE = 2
 
 const failures = []

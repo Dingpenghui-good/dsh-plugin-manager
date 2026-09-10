@@ -24,10 +24,10 @@ const pluginManagerListResultSchema = z.object({
 })
 
 export const TYPERT_REMOTE: TypertRemoteContribution = {
-  package: '@dsh-plugin/plugin-manager',
+  package: '@dphdph/plugin-manager',
   descriptors: [
     {
-      id: '@dsh-plugin/plugin-manager#pluginManager/list',
+      id: '@dphdph/plugin-manager#pluginManager/list',
       service: 'pluginManager',
       namespace: 'pluginManager',
       method: 'list',
@@ -35,12 +35,12 @@ export const TYPERT_REMOTE: TypertRemoteContribution = {
       parameters: [],
       result: {
         mode: 'strict',
-        typeSymbol: '@dsh-plugin/plugin-manager/types#PluginManagerSnapshot',
+        typeSymbol: '@dphdph/plugin-manager/types#PluginManagerSnapshot',
         schema: pluginManagerListResultSchema,
       },
     },
     {
-      id: '@dsh-plugin/plugin-manager#pluginManager/toggle',
+      id: '@dphdph/plugin-manager#pluginManager/toggle',
       service: 'pluginManager',
       namespace: 'pluginManager',
       method: 'toggle',
@@ -66,7 +66,7 @@ export const TYPERT_REMOTE: TypertRemoteContribution = {
       },
     },
     {
-      id: '@dsh-plugin/plugin-manager#pluginManager/uninstall',
+      id: '@dphdph/plugin-manager#pluginManager/uninstall',
       service: 'pluginManager',
       namespace: 'pluginManager',
       method: 'uninstall',

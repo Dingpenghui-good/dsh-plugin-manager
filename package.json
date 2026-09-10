@@ -1,5 +1,5 @@
 {
-  "name": "@dsh-plugin/plugin-manager",
+  "name": "@dphdph/plugin-manager",
   "version": "0.3.0",
   "description": "Writable plugin management tab for DeepSeek Harness ‟toggle, enable/disable, and uninstall user-installed Cordis plugins from Settings",
   "type": "module",

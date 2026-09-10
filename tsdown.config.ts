@@ -4,7 +4,7 @@ import { basename, dirname, resolve as resolvePath, sep } from 'node:path'
 import { defineConfig } from 'tsdown'
 import { transform } from 'lightningcss'
 
-const PLUGIN_ID = '@dsh-plugin/plugin-manager'
+const PLUGIN_ID = '@dphdph/plugin-manager'
 
 const CSS_VIRTUAL_PREFIX = '\0dsh-css:'
 const CSS_VIRTUAL_SUFFIX = '.mjs'
