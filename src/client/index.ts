@@ -1,8 +1,12 @@
 /** Writable plugin management tab registered into Web Settings. */
 
 import type {} from '@deepseek-ai/dsh-client-locale/client'
-import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
+// The Client root Context type lives on Cordis itself; DSH 0.1.5 removed the
+// former @deepseek-ai/dsh-client-runtime/client re-export.
+import type { Context as ClientContext } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
+// Type-only: pulls the renderer's Context merge that declares ctx.slots.
+import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import type {} from '../typert.remote-client'
 import { TYPERT_REMOTE } from './typert.remote-client'
 import { PluginManagerSettingsTab } from './PluginManagerSettingsTab'
@@ -31,30 +35,25 @@ export const inject = ['slots', 'locale', 'remote'] as const
 
 /** Contribute the lazy manager tab to the Plugins settings section. */
 export async function apply(ctx: ClientContext): Promise<void> {
-  console.log('[plugin-manager] apply() called')
   ctx.effect(() => ctx.locale.register(NS, { zh, en }), 'ui-settings-plugin-manager: dictionaries')
 
   // Mount our Typert Remote contribution so ctx.remote.pluginManager exists
   // before any slot component tries to use it.
-  try {
-    await ctx.remote.$mount(TYPERT_REMOTE)
-    console.log('[plugin-manager] TYPERT_REMOTE mounted successfully')
-  } catch (error) {
-    console.error('[plugin-manager] failed to mount TYPERT_REMOTE:', error)
-    throw error
-  }
+  //
+  // $mount binds its own effect to the Gateway's fiber, not ours, so the
+  // returned disposer is what makes this reversible: without it a later
+  // activation would find the namespace and package still claimed.
+  const unmountRemote = await ctx.remote.$mount(TYPERT_REMOTE)
+  ctx.effect(() => unmountRemote, 'ui-settings-plugin-manager: Remote contribution')
 
   const t = ctx.locale.bind(NS)
   // Use ctx.get() to access the namespace service directly, avoiding the
   // inject deadlock: we create the service via $mount(), then read it back.
   const pm = () => ctx.get('remote.pluginManager') as any
   const list = async () => {
-    console.log('[plugin-manager] list() called')
     try {
       const result = await pm().list()
-      console.log('[plugin-manager] list() result:', result)
       if (!result.ok) {
-        console.error('[plugin-manager] list failed:', result.error)
         throw new Error(`pluginManager.list failed: ${result.error.code}: ${result.error.message}`)
       }
       return result.value

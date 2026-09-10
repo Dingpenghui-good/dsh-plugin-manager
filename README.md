@@ -11,6 +11,15 @@ DeepSeek Harness 插件管理器 — 在设置界面中管理用户安装的 Cor
 - **双语支持** — 中文 / English
 - **状态指示** — 显示 Cordis fiber 阶段（挂载中/已挂载/失败等）
 
+## 兼容性
+
+| 插件版本 | DSH 版本 | 说明 |
+|---------|----------|------|
+| ≤ 0.2.1 | `0.1.1-rc.2` | 使用 `@deepseek-ai/dsh-client-runtime` 与旧版 Typert 注册契约 |
+| ≥ 0.3.0 | `0.1.5-rc.1` | 适配异步插件清单、`TypertContribution.model`、`ctx.slots` 增强；移除已删除的 `dsh-client-runtime` |
+
+> 依赖区间按预发布 semver 规则必须与目标 DSH 的 minor 元组一致：`^0.1.1-rc.2` 永远解析不到 `0.1.5-rc.1`，因此跨版本使用会静默锁死旧包。
+
 ## 安装方式
 
 ### 方式一：使用 dsh 命令（推荐）
@@ -48,9 +57,9 @@ git clone https://github.com/<your-username>/dsh-plugin-manager.git ~/.dsh/plugi
 # 进入插件目录
 cd ~/.dsh/plugins/dsh-plugin-manager
 
-# 安装依赖并构建
-npm install
-npm run build
+# 安装依赖并构建（必须用 pnpm）
+pnpm install
+pnpm run build
 
 # 添加到 DSH
 dsh plugin --profile web add .
@@ -97,17 +106,32 @@ dsh-plugin-manager/
 ## 开发
 
 ```bash
-# 安装依赖
-npm install
+# 安装依赖（必须用 pnpm：0.1.5-rc.1 等预发布版本在 npm 注册表不可被 npm 解析）
+pnpm install
 
 # 构建（生产）
-npm run build
+pnpm run build
+
+# 类型检查
+pnpm run typecheck
+
+# 运行时回归验证（挂载真实 0.1.5-rc.1 服务，31 项检查）
+node runtime-verify.mjs
 
 # 开发模式（监听文件变化）
-npm run dev
+pnpm run dev
 ```
 
-> ⚠️ **必须执行 `npm run build`**，插件运行时依赖 `lib/` 下的构建产物，不能直接使用源码。
+> ⚠️ **必须执行 `pnpm run build`**，插件运行时依赖 `lib/` 下的构建产物，不能直接使用源码。
+
+> `runtime-verify.mjs` 直接用插件自身 `node_modules` 中的真实 DSH 包搭建最小运行时，覆盖 Host 服务注册、Typert 严格描述符、启停可逆性、重新激活幂等性，以及客户端 `$mount` 贡献的 strict codec 契约。
+
+## 技术说明（DSH 0.1.5 契约）
+
+- **宿主 Typert 注册**：`pluginManager` 服务位于插件子 fiber，Gateway 的 `collectSrcClaims()` 只扫描根级服务，因此必须手动向 `ctx.typert` 注册严格调用描述符；注册的 disposer 绑定到插件 fiber，停止插件即撤回
+- **重新激活**：`typert.getPackage()` 已存在时跳过重复注册，避免 "package face already registered"
+- **客户端 Remote**：`ctx.remote.$mount(TYPERT_REMOTE)` 显式挂载命名空间，其返回的 disposer 绑定到插件 fiber
+- **清单读取**：`PluginInventoryGateway.list()` 在 0.1.5 为异步，返回的 `entries` 经过滤后暴露给设置页
 
 ## API
 

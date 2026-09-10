@@ -1,7 +1,9 @@
 import type { Context } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/cordis-plugin-loader'
 import type { PluginInventoryGateway } from '@deepseek-ai/dsh-host-plugin-inventory'
-import { Remote, TypertRemoteService, type RemoteMethodMarker } from '@deepseek-ai/dsh-typert-protocol'
+import { Remote, TypertRemoteService } from '@deepseek-ai/dsh-typert-protocol'
+// Type-only: pulls the TypertRegistryContract merge that adds ctx.typert.register/getPackage.
+import type { TypertContribution } from '@deepseek-ai/dsh-typert-registry'
 import type {} from 'zod'
 import type { PluginManagerSnapshot } from './types'
 
@@ -66,13 +68,16 @@ export class PluginManagerGateway extends TypertRemoteService {
 
   /**
    * List user-installed plugins (non-builtin Loader entries) visible from this session.
+   *
+   * DSH 0.1.5: `PluginInventoryGateway.list()` returns a `Promise<PluginInventorySnapshot>`
+   * (it may additionally resolve an agent-preset roster), so this Remote method is async.
    */
-  list(): PluginManagerSnapshot {
+  async list(): Promise<PluginManagerSnapshot> {
     const inventory = this.ctx.get('pluginInventory') as PluginInventoryGateway | undefined
     if (inventory === undefined) {
       return { entries: [] }
     }
-    const all = inventory.list()
+    const all = await inventory.list()
     return {
       entries: all.entries.filter(entry => !isBuiltin(entry.moduleName)),
     }
@@ -162,17 +167,43 @@ const INVOCATIONS = [
   },
 ]
 
+/** Stable contribution identity of this plugin (also its Cordis service owner key). */
+const PACKAGE_NAME = '@dsh-plugin/plugin-manager'
+
+/**
+ * Empty package reflection.
+ *
+ * DSH 0.1.5 makes `TypertContribution.model` mandatory. A hand-written dynamic
+ * plugin publishes no generated reflection: the Gateway resolves our endpoints
+ * through the strict invocation descriptors below, never through this model.
+ */
+const EMPTY_MODEL = { services: [], events: [], objects: [] } as const
+
 export function apply(ctx: Context): void {
   // Instantiate the gateway service so it registers itself as 'pluginManager'
-  const service = new PluginManagerGateway(ctx)
+  new PluginManagerGateway(ctx)
+
+  const typert = ctx.get('typert')
+  if (typert === undefined) return
+
+  // A contribution owned by an earlier activation of this plugin may still be
+  // live: the registry binds its own effect to the Gateway fiber, so stopping
+  // this plugin does not necessarily withdraw it. Re-registering the same
+  // package face is rejected outright, and the surviving descriptors stay
+  // correct because they name the service, which is resolved on every call.
+  if (typert.getPackage(PACKAGE_NAME, 'host') !== undefined) return
 
   // Register strict typert descriptors so the gateway resolves our endpoints
   // via this.ctx.typert.local.get(endpoint) instead of falling back to
   // collectSrcClaims() which cannot see services in child fibers.
-  ctx.get('typert')!.register({
-    package: '@dsh-plugin/plugin-manager',
+  const contribution: TypertContribution = {
+    package: PACKAGE_NAME,
     face: 'host',
     schemas: [],
+    model: EMPTY_MODEL,
     invocations: INVOCATIONS,
-  })
+  }
+  // Bind the registry's disposer to this plugin's fiber so the descriptors are
+  // withdrawn when the plugin stops or unloads.
+  ctx.effect(() => typert.register(contribution), 'plugin-manager: typert host contribution')
 }

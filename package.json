@@ -1,63 +1,72 @@
 {
-    "dsh":  {
-                "client":  {
-                               "inject":  [
-                                              "@deepseek-ai/dsh-client-ui-settings",
-                                              "@deepseek-ai/dsh-client-ui-slots"
-                                          ],
-                               "platform":  "web"
-                           },
-                "bundle":  {
-                               "patch":  "./cordis.patch.yml"
-                           }
-            },
-    "peerDependencies":  {
-                             "@deepseek-ai/dsh-client-ui-slots":  "^0.1.1-rc.2",
-                             "react":  "^18.2.0",
-                             "@deepseek-ai/dsh-client-locale":  "^0.1.1-rc.2",
-                             "@deepseek-ai/dsh-client-runtime":  "^0.1.1-rc.2",
-                             "@deepseek-ai/dsh-api-remotes":  "^0.1.1-rc.2",
-                             "@deepseek-ai/dsh-typert-protocol":  "^0.1.1-rc.2",
-                             "@deepseek-ai/dsh-host-plugin-inventory":  "^0.1.1-rc.2",
-                             "@deepseek-ai/cordis":  "^4.0.1",
-                             "@deepseek-ai/dsh-client-ui-primitives":  "^0.1.1-rc.2",
-                             "@deepseek-ai/dsh-client-ui-settings":  "^0.1.1-rc.2"
-                         },
-    "description":  "Writable plugin management tab for DeepSeek Harness ‟toggle, enable/disable, and uninstall user-installed Cordis plugins from Settings",
-    "type":  "module",
-    "version":  "0.2.1",
-    "files":  [
-                  "lib",
-                  "src",
-                  "package.json",
-                  "README.md",
-                  "cordis.yml",
-                  "cordis.patch.yml"
-              ],
-    "scripts":  {
-                    "dev":  "tsdown --watch",
-                    "build":  "tsdown"
-                },
-    "name":  "@dsh-plugin/plugin-manager",
-    "main":  "./lib/index.js",
-    "exports":  {
-                    "./client":  {
-                                     "types":  "./lib/client/client.d.ts",
-                                     "default":  "./lib/client.js"
-                                 },
-                    "./package.json":  "./package.json",
-                    ".":  {
-                              "types":  "./lib/index.d.ts",
-                              "default":  "./lib/index.js"
-                          }
-                },
-    "devDependencies":  {
-                            "tsdown":  "^0.22.14",
-                            "typescript":  "^7.0.2",
-                            "lightningcss":  "^1.33.0",
-                            "@types/react-dom":  "^18.3.7",
-                            "@types/react":  "^18.3.31",
-                            "@types/node":  "^26.2.0"
-                        },
-    "license":  "MIT"
+  "name": "@dsh-plugin/plugin-manager",
+  "version": "0.3.0",
+  "description": "Writable plugin management tab for DeepSeek Harness ‟toggle, enable/disable, and uninstall user-installed Cordis plugins from Settings",
+  "type": "module",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/client/client.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "package.json",
+    "README.md",
+    "cordis.yml",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "dev": "tsdown --watch",
+    "build": "tsdown",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-api-remotes"
+      ]
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/cordis-plugin-loader": "^1.0.3",
+    "@deepseek-ai/dsh-api-remotes": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-locale": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-ui-primitives": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-ui-renderer": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-ui-settings": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-ui-slots": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-host-plugin-inventory": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-typert-protocol": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-typert-registry": "^0.1.5-rc.1",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "lightningcss": "^1.33.0",
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2",
+    "zod": "^4.4.3"
+  }
 }

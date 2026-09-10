@@ -9,7 +9,8 @@
     "strict": true,
     "noEmit": false,
     "jsx": "react-jsx",
-    "types": ["node", "react", "react-dom"]
+    "types": ["node", "react", "react-dom"],
+    "skipLibCheck": true
   },
   "include": ["src/**/*"]
 }

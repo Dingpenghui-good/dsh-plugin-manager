@@ -9,8 +9,6 @@ const PLUGIN_ID = '@dsh-plugin/plugin-manager'
 const CSS_VIRTUAL_PREFIX = '\0dsh-css:'
 const CSS_VIRTUAL_SUFFIX = '.mjs'
 
-const RUNTIME_STORE_EXEMPTION = '@deepseek-ai/dsh-client-runtime/client'
-
 const CLIENT_EXTERNALS = [
   'react',
   'react/jsx-runtime',
@@ -18,12 +16,9 @@ const CLIENT_EXTERNALS = [
   'react-dom/client',
   '@deepseek-ai/cordis',
   '@deepseek-ai/dsh-client-ui-slots',
-  '@deepseek-ai/dsh-client-web-react',
+  '@deepseek-ai/dsh-client-web',
   '@deepseek-ai/dsh-client-ui-primitives',
-  '@deepseek-ai/dsh-client-schema-form',
-  RUNTIME_STORE_EXEMPTION,
   '@deepseek-ai/dsh-client-locale',
-  '@deepseek-ai/dsh-client-runtime',
   '@deepseek-ai/dsh-host-plugin-inventory',
   '@deepseek-ai/dsh-typert-protocol',
 ] as const
@@ -57,6 +52,7 @@ export default defineConfig([
       '@deepseek-ai/cordis',
       '@deepseek-ai/dsh-host-plugin-inventory',
       '@deepseek-ai/dsh-typert-protocol',
+      '@deepseek-ai/dsh-typert-registry',
       'zod',
     ],
     noExternal: (id: string) => {
