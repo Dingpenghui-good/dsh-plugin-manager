@@ -17,6 +17,7 @@ DeepSeek Harness 插件管理器 — 在设置界面中管理用户安装的 Cor
 |---------|----------|------|
 | ≤ 0.2.1 | `0.1.1-rc.2` | 使用 `@deepseek-ai/dsh-client-runtime` 与旧版 Typert 注册契约 |
 | ≥ 0.3.0 | `0.1.5-rc.1` | 适配异步插件清单、`TypertContribution.model`、`ctx.slots` 增强；移除已删除的 `dsh-client-runtime` |
+| 0.3.1 | `0.1.5-rc.1` | 元数据修订版：修正 `package.json` 描述字段乱码，内容与 0.3.0 相同 |
 
 > 依赖区间按预发布 semver 规则必须与目标 DSH 的 minor 元组一致：`^0.1.1-rc.2` 永远解析不到 `0.1.5-rc.1`，因此跨版本使用会静默锁死旧包。
 

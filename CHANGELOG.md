@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-09-12
+
+### Fixed
+- 修复包描述字段中的乱码字符 `‟`（U+201F，下双引号）为 `—`（em dash），保证 `package.json` 在 Node ESM 解析器与 npm registry 下干净可读
+- 重发 0.3.0 的全部内容：与已发布的 0.3.0 相比，除版本号外无任何功能或代码变更，仅修正描述字段乱码
+
+### Changed
+- `README.md` 兼容性表格补充 0.3.1 行（DSH `0.1.5-rc.1`）
+
 ## [0.3.0] - 2026-09-10
 
 ### Fixed
