@@ -1,6 +1,6 @@
 {
   "name": "@dphdph/plugin-manager",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Writable plugin management tab for DeepSeek Harness — toggle, enable/disable, and uninstall user-installed Cordis plugins from Settings",
   "type": "module",
   "license": "MIT",
@@ -49,15 +49,15 @@
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.2",
     "@deepseek-ai/cordis-plugin-loader": "^1.0.3",
-    "@deepseek-ai/dsh-api-remotes": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-locale": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-primitives": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-renderer": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-settings": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-slots": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-host-plugin-inventory": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-typert-protocol": "^0.1.5-rc.1",
-    "@deepseek-ai/dsh-typert-registry": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-api-remotes": "^0.1.6-alpha.1",
+    "@deepseek-ai/dsh-client-locale": "^0.1.6-alpha.1",
+    "@deepseek-ai/dsh-client-ui-primitives": "^0.1.6-alpha.1",
+    "@deepseek-ai/dsh-client-ui-renderer": "^0.1.6-alpha.1",
+    "@deepseek-ai/dsh-client-ui-settings": "^0.1.6-alpha.1",
+    "@deepseek-ai/dsh-client-ui-slots": "^0.1.6-alpha.1",
+    "@deepseek-ai/dsh-host-plugin-inventory": "^0.1.6-alpha.1",
+    "@deepseek-ai/dsh-typert-protocol": "^0.1.6-alpha.1",
+    "@deepseek-ai/dsh-typert-registry": "^0.1.6-alpha.1",
     "react": "^18.2.0"
   },
   "devDependencies": {
